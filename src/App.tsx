@@ -1,13 +1,13 @@
-import "./App.css";
+// import "./App.css";
 
 import { Editor } from "./Editor";
 
 const App = () => {
-    return (
-        <div className="App">
-            <Editor />
-        </div>
-    );
+  return (
+    <div className="App">
+      <Editor />
+    </div>
+  );
 };
 
 export default App;
