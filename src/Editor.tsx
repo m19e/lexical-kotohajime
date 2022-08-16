@@ -3,6 +3,8 @@ import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 
+import styles from "./Editor.module.scss";
+
 const initialConfig: ComponentProps<typeof LexicalComposer>["initialConfig"] = {
   namespace: "LexicalEditor",
   onError: (error) => console.error(error),
@@ -11,10 +13,16 @@ const initialConfig: ComponentProps<typeof LexicalComposer>["initialConfig"] = {
 export const Editor: FC = () => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <RichTextPlugin
-        contentEditable={<ContentEditable />}
-        placeholder={<div>What's happening?</div>}
-      />
+      <div className={styles.editorContainer}>
+        <RichTextPlugin
+          contentEditable={
+            <ContentEditable className={styles.contentEditable} />
+          }
+          placeholder={
+            <div className={styles.placeholder}>What's happening?</div>
+          }
+        />
+      </div>
     </LexicalComposer>
   );
 };
