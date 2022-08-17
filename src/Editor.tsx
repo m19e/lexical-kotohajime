@@ -6,11 +6,14 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 
 import styles from "@/Editor.module.scss";
 
+import { nodes } from "@/nodes";
+
 import { AutoFocusPlugin } from "@/plugins/AutoFocusPlugin";
 
 const initialConfig: ComponentProps<typeof LexicalComposer>["initialConfig"] = {
   namespace: "LexicalEditor",
   onError: (error) => console.error(error),
+  nodes,
 };
 
 export const Editor: FC = () => {
