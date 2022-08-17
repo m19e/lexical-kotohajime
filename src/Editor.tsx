@@ -9,6 +9,7 @@ import styles from "@/Editor.module.scss";
 import { nodes } from "@/nodes";
 
 import { AutoFocusPlugin } from "@/plugins/AutoFocusPlugin";
+import { ToolbarPlugin } from "@/plugins/ToolbarPlugin";
 
 const initialConfig: ComponentProps<typeof LexicalComposer>["initialConfig"] = {
   namespace: "LexicalEditor",
@@ -19,6 +20,7 @@ const initialConfig: ComponentProps<typeof LexicalComposer>["initialConfig"] = {
 export const Editor: FC = () => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
+      <ToolbarPlugin />
       <div className={styles.editorContainer}>
         <RichTextPlugin
           contentEditable={
