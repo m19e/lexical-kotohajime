@@ -3,7 +3,7 @@ import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 
-import styles from "@/Editor.module.scss";
+import styles from "./Editor.module.scss";
 
 const initialConfig: ComponentProps<typeof LexicalComposer>["initialConfig"] = {
   namespace: "LexicalEditor",
