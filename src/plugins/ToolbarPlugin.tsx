@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import type { FC } from "react";
 import { TbH1, TbH2, TbH3 } from "react-icons/all";
+
+import { $getSelection, $isRangeSelection } from "lexical";
+import { $createHeadingNode } from "@lexical/rich-text";
+import type { HeadingTagType } from "@lexical/rich-text";
+import { $wrapLeafNodesInElements } from "@lexical/selection";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
 import styles from "@/plugins/ToolbarPlugin.module.scss";
 
@@ -17,6 +23,21 @@ type BlockType = keyof typeof SupportedBlockType;
 
 export const ToolbarPlugin: FC = () => {
   const [blockType, setBlockType] = useState<BlockType>("paragraph");
+  const [editor] = useLexicalComposerContext();
+
+  const formatHeading = useCallback(
+    (type: HeadingTagType) => {
+      if (blockType !== type) {
+        editor.update(() => {
+          const selection = $getSelection();
+          if ($isRangeSelection(selection)) {
+            $wrapLeafNodesInElements(selection, () => $createHeadingNode(type));
+          }
+        });
+      }
+    },
+    [blockType, editor]
+  );
 
   return (
     <div className={styles.toolbar}>
@@ -26,6 +47,7 @@ export const ToolbarPlugin: FC = () => {
         title={SupportedBlockType["h1"]}
         aria-label={SupportedBlockType["h1"]}
         aria-checked={blockType === "h1"}
+        onClick={() => formatHeading("h1")}
       >
         <TbH1 />
       </button>
@@ -35,6 +57,7 @@ export const ToolbarPlugin: FC = () => {
         title={SupportedBlockType["h2"]}
         aria-label={SupportedBlockType["h2"]}
         aria-checked={blockType === "h2"}
+        onClick={() => formatHeading("h2")}
       >
         <TbH2 />
       </button>
@@ -44,6 +67,7 @@ export const ToolbarPlugin: FC = () => {
         title={SupportedBlockType["h3"]}
         aria-label={SupportedBlockType["h3"]}
         aria-checked={blockType === "h3"}
+        onClick={() => formatHeading("h3")}
       >
         <TbH3 />
       </button>
