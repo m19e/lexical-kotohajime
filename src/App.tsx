@@ -1,6 +1,6 @@
 // import "./App.css";
 
-import { Editor } from "./Editor";
+import { Editor } from "@/Editor";
 
 const App = () => {
   return (
