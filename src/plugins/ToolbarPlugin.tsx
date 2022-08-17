@@ -1,9 +1,9 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { FC } from "react";
 import { TbH1, TbH2, TbH3 } from "react-icons/all";
 
 import { $getSelection, $isRangeSelection } from "lexical";
-import { $createHeadingNode } from "@lexical/rich-text";
+import { $createHeadingNode, $isHeadingNode } from "@lexical/rich-text";
 import type { HeadingTagType } from "@lexical/rich-text";
 import { $wrapLeafNodesInElements } from "@lexical/selection";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
@@ -24,6 +24,28 @@ type BlockType = keyof typeof SupportedBlockType;
 export const ToolbarPlugin: FC = () => {
   const [blockType, setBlockType] = useState<BlockType>("paragraph");
   const [editor] = useLexicalComposerContext();
+
+  useEffect(() => {
+    return editor.registerUpdateListener(({ editorState }) => {
+      editorState.read(() => {
+        const selection = $getSelection();
+        if (!$isRangeSelection(selection)) return;
+
+        const anchorNode = selection.anchor.getNode();
+        const targetNode =
+          anchorNode.getKey() === "root"
+            ? anchorNode
+            : anchorNode.getTopLevelElementOrThrow();
+
+        if ($isHeadingNode(targetNode)) {
+          const tag = targetNode.getTag();
+          setBlockType(tag);
+        } else {
+          setBlockType("paragraph");
+        }
+      });
+    });
+  }, [editor]);
 
   const formatHeading = useCallback(
     (type: HeadingTagType) => {
