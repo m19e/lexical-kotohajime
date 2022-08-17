@@ -2,6 +2,7 @@ import type { ComponentProps, FC } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 
 import styles from "@/Editor.module.scss";
 
@@ -26,6 +27,7 @@ export const Editor: FC = () => {
         />
       </div>
       <AutoFocusPlugin />
+      <HistoryPlugin />
     </LexicalComposer>
   );
 };
