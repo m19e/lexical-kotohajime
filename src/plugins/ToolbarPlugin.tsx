@@ -1,6 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 import type { FC } from "react";
-import { TbH1, TbH2, TbH3, MdFormatQuote } from "react-icons/all";
+import {
+  TbH1,
+  TbH2,
+  TbH3,
+  MdFormatQuote,
+  MdFormatListBulleted,
+  MdFormatListNumbered,
+  MdChecklist,
+} from "react-icons/all";
 
 import { $getSelection, $isRangeSelection } from "lexical";
 import {
@@ -11,6 +19,11 @@ import {
 import type { HeadingTagType } from "@lexical/rich-text";
 import { $wrapLeafNodesInElements } from "@lexical/selection";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import {
+  INSERT_UNORDERED_LIST_COMMAND,
+  INSERT_ORDERED_LIST_COMMAND,
+  INSERT_CHECK_LIST_COMMAND,
+} from "@lexical/list";
 
 import styles from "@/plugins/ToolbarPlugin.module.scss";
 
@@ -23,6 +36,9 @@ const SupportedBlockType = {
   h5: "Heading 5",
   h6: "Heading 6",
   quote: "Quote",
+  number: "Numbered List",
+  bullet: "Bulleted List",
+  check: "Check List",
 } as const;
 type BlockType = keyof typeof SupportedBlockType;
 
@@ -80,6 +96,21 @@ export const ToolbarPlugin: FC = () => {
       });
     }
   }, [blockType, editor]);
+  const formatBulletList = useCallback(() => {
+    if (blockType !== "bullet") {
+      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
+    }
+  }, [blockType, editor]);
+  const formatNumberedList = useCallback(() => {
+    if (blockType !== "number") {
+      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+    }
+  }, [blockType, editor]);
+  const formatCheckList = useCallback(() => {
+    if (blockType !== "check") {
+      editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
+    }
+  }, [blockType, editor]);
 
   return (
     <div className={styles.toolbar}>
@@ -122,6 +153,36 @@ export const ToolbarPlugin: FC = () => {
         onClick={formatQuote}
       >
         <MdFormatQuote />
+      </button>
+      <button
+        type="button"
+        role="checkbox"
+        title={SupportedBlockType["bullet"]}
+        aria-label={SupportedBlockType["bullet"]}
+        aria-checked={blockType === "bullet"}
+        onClick={formatBulletList}
+      >
+        <MdFormatListBulleted />
+      </button>
+      <button
+        type="button"
+        role="checkbox"
+        title={SupportedBlockType["number"]}
+        aria-label={SupportedBlockType["number"]}
+        aria-checked={blockType === "number"}
+        onClick={formatNumberedList}
+      >
+        <MdFormatListNumbered />
+      </button>
+      <button
+        type="button"
+        role="checkbox"
+        title={SupportedBlockType["check"]}
+        aria-label={SupportedBlockType["check"]}
+        aria-checked={blockType === "check"}
+        onClick={formatCheckList}
+      >
+        <MdChecklist />
       </button>
     </div>
   );
