@@ -1,9 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import type { FC } from "react";
-import { TbH1, TbH2, TbH3 } from "react-icons/all";
+import { TbH1, TbH2, TbH3, MdFormatQuote } from "react-icons/all";
 
 import { $getSelection, $isRangeSelection } from "lexical";
-import { $createHeadingNode, $isHeadingNode } from "@lexical/rich-text";
+import {
+  $createHeadingNode,
+  $isHeadingNode,
+  $createQuoteNode,
+} from "@lexical/rich-text";
 import type { HeadingTagType } from "@lexical/rich-text";
 import { $wrapLeafNodesInElements } from "@lexical/selection";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
@@ -66,6 +70,16 @@ export const ToolbarPlugin: FC = () => {
     },
     [blockType, editor]
   );
+  const formatQuote = useCallback(() => {
+    if (blockType !== "quote") {
+      editor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          $wrapLeafNodesInElements(selection, () => $createQuoteNode());
+        }
+      });
+    }
+  }, [blockType, editor]);
 
   return (
     <div className={styles.toolbar}>
@@ -98,6 +112,16 @@ export const ToolbarPlugin: FC = () => {
         onClick={() => formatHeading("h3")}
       >
         <TbH3 />
+      </button>
+      <button
+        type="button"
+        role="checkbox"
+        title={SupportedBlockType["quote"]}
+        aria-label={SupportedBlockType["quote"]}
+        aria-checked={blockType === "quote"}
+        onClick={formatQuote}
+      >
+        <MdFormatQuote />
       </button>
     </div>
   );
