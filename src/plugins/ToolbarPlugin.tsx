@@ -42,7 +42,12 @@ export const ToolbarPlugin: FC = () => {
           const tag = targetNode.getTag();
           setBlockType(tag);
         } else {
-          setBlockType("paragraph");
+          const nodeType = targetNode.getType();
+          if (nodeType in SupportedBlockType) {
+            setBlockType(nodeType as BlockType);
+          } else {
+            setBlockType("paragraph");
+          }
         }
       });
     });
