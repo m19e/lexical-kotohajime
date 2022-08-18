@@ -3,6 +3,8 @@ import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 
 import styles from "@/Editor.module.scss";
 
@@ -35,6 +37,8 @@ export const Editor: FC = () => {
       </div>
       <AutoFocusPlugin />
       <HistoryPlugin />
+      <ListPlugin />
+      <CheckListPlugin />
     </LexicalComposer>
   );
 };
