@@ -21,4 +21,14 @@ export const theme: EditorThemeClasses = {
     listitemChecked: styles.listitemChecked,
     listitemUnchecked: styles.listitemUnchecked,
   },
+  text: {
+    bold: styles.textBold,
+    code: styles.textCode,
+    italic: styles.textItalic,
+    strikethrough: styles.textStrikethrough,
+    subscript: styles.textSubscript,
+    superscript: styles.textSuperscript,
+    underline: styles.textUnderline,
+    underlineStrikethrough: styles.textUnderlineStrikethrough,
+  },
 };
