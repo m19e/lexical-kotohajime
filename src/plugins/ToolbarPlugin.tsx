@@ -23,7 +23,10 @@ import {
   INSERT_UNORDERED_LIST_COMMAND,
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_CHECK_LIST_COMMAND,
+  $isListNode,
+  ListNode,
 } from "@lexical/list";
+import { $getNearestNodeOfType } from "@lexical/utils";
 
 import styles from "@/plugins/ToolbarPlugin.module.scss";
 
@@ -61,6 +64,13 @@ export const ToolbarPlugin: FC = () => {
         if ($isHeadingNode(targetNode)) {
           const tag = targetNode.getTag();
           setBlockType(tag);
+        } else if ($isListNode(targetNode)) {
+          const parentList = $getNearestNodeOfType(anchorNode, ListNode);
+          const listType = parentList
+            ? parentList.getListType()
+            : targetNode.getListType();
+
+          setBlockType(listType);
         } else {
           const nodeType = targetNode.getType();
           if (nodeType in SupportedBlockType) {
