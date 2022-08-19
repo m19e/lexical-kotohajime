@@ -25,29 +25,23 @@ export const Selection: FC = () => {
       const root = $getRoot();
       const selection = $getSelection();
 
-      console.log(root, selection);
+      console.log(selection);
     });
   };
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div className={styles.editorContainer}>
+      <div
+        className={styles.editorContainer}
+        style={{ writingMode: "vertical-rl" }}
+      >
         <PlainTextPlugin
           contentEditable={
             <ContentEditable className={styles.contentEditable} />
           }
           placeholder={<Placeholder />}
         />
-        <OnChangePlugin
-          onChange={(editorState) => {
-            editorState.read(() => {
-              const root = $getRoot();
-              const selection = $getSelection();
-
-              console.log(root, selection);
-            });
-          }}
-        />
+        <OnChangePlugin onChange={handleEditorChange} />
         <HistoryPlugin />
         <AutoFocusPlugin />
       </div>
