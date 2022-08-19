@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { FORMAT_TEXT_COMMAND } from "lexical";
+import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND } from "lexical";
 import {
   MdCode,
   MdFormatBold,
@@ -23,6 +23,24 @@ export const InlineToolbarPlugin = () => {
   const [isCode, setIsCode] = useState(false);
   const [isSubscript, setIsSubscript] = useState(false);
   const [isSuperscript, setIsSuperscript] = useState(false);
+
+  useEffect(() => {
+    editor.registerUpdateListener(({ editorState }) => {
+      editorState.read(() => {
+        const selection = $getSelection();
+
+        if (!$isRangeSelection(selection)) return;
+
+        setIsBold(selection.hasFormat("bold"));
+        setIsUnderline(selection.hasFormat("underline"));
+        setIsStrikethrough(selection.hasFormat("strikethrough"));
+        setIsItalic(selection.hasFormat("italic"));
+        setIsCode(selection.hasFormat("code"));
+        setIsSubscript(selection.hasFormat("subscript"));
+        setIsSuperscript(selection.hasFormat("superscript"));
+      });
+    });
+  }, [editor]);
 
   return (
     <div className={styles.inlineToolbar}>
