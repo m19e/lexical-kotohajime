@@ -14,6 +14,7 @@ import { theme } from "@/editorTheme";
 import { AutoFocusPlugin } from "@/plugins/AutoFocusPlugin";
 import { ToolbarPlugin } from "@/plugins/ToolbarPlugin";
 import { InlineToolbarPlugin } from "@/plugins/InlineToolbarPlugin";
+import { MarkdownPlugin } from "@/plugins/MarkdownPlugin";
 
 const initialConfig: ComponentProps<typeof LexicalComposer>["initialConfig"] = {
   namespace: "LexicalEditor",
@@ -41,6 +42,7 @@ export const Editor: FC = () => {
       <HistoryPlugin />
       <ListPlugin />
       <CheckListPlugin />
+      <MarkdownPlugin />
     </LexicalComposer>
   );
 };
