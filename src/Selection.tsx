@@ -1,5 +1,5 @@
 import type { ComponentProps, FC } from "react";
-import { $getRoot, $getSelection } from "lexical";
+import { $getSelection, $isRangeSelection } from "lexical";
 import type { EditorState, LexicalEditor } from "lexical";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
@@ -17,15 +17,23 @@ const initialConfig: ComponentProps<typeof LexicalComposer>["initialConfig"] = {
 };
 
 export const Selection: FC = () => {
-  const handleEditorChange = (
-    editorState: EditorState,
-    editor: LexicalEditor
-  ) => {
+  const handleEditorChange = (editorState: EditorState, _: LexicalEditor) => {
     editorState.read(() => {
-      const root = $getRoot();
       const selection = $getSelection();
 
-      console.log(selection);
+      if ($isRangeSelection(selection)) {
+        const anchor = {
+          key: selection.anchor.key,
+          offset: selection.anchor.offset,
+          type: selection.anchor.type,
+        };
+        const focus = {
+          key: selection.focus.key,
+          offset: selection.focus.offset,
+          type: selection.focus.type,
+        };
+        console.log(JSON.stringify({ anchor, focus }, null, 2));
+      }
     });
   };
 
