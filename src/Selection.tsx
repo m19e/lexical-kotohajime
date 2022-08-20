@@ -32,7 +32,7 @@ export const Selection: FC = () => {
           offset: selection.focus.offset,
           type: selection.focus.type,
         };
-        console.log(JSON.stringify({ anchor, focus }, null, 2));
+        // console.log(JSON.stringify({ anchor, focus }, null, 2));
       }
     });
   };
