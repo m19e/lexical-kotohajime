@@ -1,13 +1,9 @@
-// import "./App.css";
-
 import { Editor } from "@/Editor";
+import { Selection } from "@/Selection";
 
 const App = () => {
-  return (
-    <div className="App">
-      <Editor />
-    </div>
-  );
+  // return <Editor />;
+  return <Selection />;
 };
 
 export default App;
