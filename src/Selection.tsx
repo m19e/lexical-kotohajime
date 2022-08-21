@@ -1,5 +1,11 @@
 import type { ComponentProps, FC } from "react";
-import { $getSelection, $isRangeSelection } from "lexical";
+import {
+  $getSelection,
+  $isRangeSelection,
+  $createRangeSelection,
+  $setSelection,
+  KEY_ARROW_DOWN_COMMAND,
+} from "lexical";
 import type { EditorState, LexicalEditor } from "lexical";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
@@ -8,6 +14,7 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 
 import { AutoFocusPlugin } from "@/plugins/AutoFocusPlugin";
+import { VerticalPlugin } from "@/plugins/VerticalPlugin";
 
 import styles from "@/Editor.module.scss";
 
@@ -51,6 +58,7 @@ export const Selection: FC = () => {
         />
         <OnChangePlugin onChange={handleEditorChange} />
         <HistoryPlugin />
+        <VerticalPlugin />
         <AutoFocusPlugin />
       </div>
     </LexicalComposer>
